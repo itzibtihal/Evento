@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Guest\GuestController;
+use App\Http\Controllers\Organizer\OrganizerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +24,22 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/index', [AdminController::class, 'index'])->name('admin.index');
+       
+    });
+   
+    Route::prefix('organizer')->group(function () {
+        Route::get('/index', [OrganizerController::class, 'index'])->name('organizer.index');
+       
+    });
+
+   
+    Route::prefix('guest')->group(function () {
+        Route::get('/index', [GuestController::class, 'index'])->name('guest.index');
+        
+    });
+});

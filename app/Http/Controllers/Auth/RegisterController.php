@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,6 +24,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    
 
     /**
      * Where to redirect users after registration.
@@ -95,5 +97,15 @@ class RegisterController extends Controller
     }
 
     return $user;
+}
+protected function registered(Request $request, $user)
+{
+    if ($user->hasRole('organizer')) {
+        return redirect(route('organizer.index'));
+    } else  if ($user->hasRole('user')){
+        return redirect(route('guest.index'));
+    } else{
+        return redirect(route('guest.index'));
+    }
 }
 }
