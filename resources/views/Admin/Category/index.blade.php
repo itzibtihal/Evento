@@ -82,7 +82,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="#">
+                <a href="{{route('admin.index')}}">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
@@ -100,7 +100,7 @@
                     </span>
                     <h3>Organizer</h3>
                 </a>
-                <a href="Requests.html">
+                <a href="{{route('admin.users.booking')}}">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -128,7 +128,7 @@
                     </span>
                     <h3>Events</h3>
                 </a>
-                <a href="pendingproject.html">
+                <a href="{{route('admin.event.getUnverifiedEvents')}}">
                     <span class="material-icons-sharp">
                         report_gmailerrorred
                     </span>
@@ -241,11 +241,11 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Reza</b></p>
-                        <small class="text-muted">Admin</small>
+                        <p>Hey, <b>{{Auth::user()->name}}</b></p>
+                        <small class="text-muted">{{ Auth::user()->roles()->first()->name }}</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="images/profile-1.jpg">
+                        <img src="{{ asset('assets/images/profile-1.jpg') }}">
                     </div>
                 </div>
 

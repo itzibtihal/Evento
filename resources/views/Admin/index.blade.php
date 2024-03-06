@@ -39,19 +39,19 @@
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html" >
+                <a href="{{route('admin.organizer.index')}}">
                     <span class="material-icons-sharp">
                         business
                     </span>
                     <h3>Organizer</h3>
                 </a>
-                <a href="Requests.html">
+                <a href="{{route('admin.users.booking')}}">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
                     <h3>Booking</h3>
                 </a>
-                
+
                 <!-- <a href="#">
                     <span class="material-icons-sharp">
                         mail_outline
@@ -59,20 +59,20 @@
                     <h3>Notif</h3>
                     <span class="message-count">27</span>
                 </a> -->
-                <a href="Category.html">
+                <a href="{{route('admin.category.index')}}">
                     <span class="material-icons-sharp">
                         add_circle_outline
                     </span>
                     <h3>Categories</h3>
                     <!-- <span class="message-count">27</span> -->
-                </a> 
-                <a href="projects.html">
+                </a>
+                <a href="{{route('admin.event.index')}}">
                     <span class="material-icons-sharp">
                         inventory
                     </span>
                     <h3>Events</h3>
                 </a>
-                <a href="pendingproject.html">
+                <a href="{{route('admin.event.getUnverifiedEvents')}}">
                     <span class="material-icons-sharp">
                         report_gmailerrorred
                     </span>
@@ -95,7 +95,7 @@
         <!-- End of Sidebar Section -->
 
         <!-- Main Content -->
-        
+
         <main>
             <h1>Dashboard</h1>
             <!-- Analyses -->
@@ -104,7 +104,7 @@
                     <div class="status">
                         <div class="info">
                             <h3>TOTAL BOOKING</h3>
-                            <h1>$65,024</h1>
+                            <h1>{{ $totalBookings }}</h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -136,7 +136,7 @@
                     <div class="status">
                         <div class="info">
                             <h3>TODAY'S EVENTS</h3>
-                            <h1>14,147</h1>
+                            <h1>{{ $eventsCreatedToday }}</h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -155,25 +155,21 @@
             <div class="new-users">
                 <h2>New Booking</h2>
                 <div class="user-list">
+                    @foreach($lastBookedUsers as $booking)
                     <div class="user">
-                        <img src="{{ asset('assets/images/profile-2.jpg') }}">
-                        <h2>Jack</h2>
-                        <p>54 Min Ago</p>
+                        @if($booking->user->getMedia('profile_picture')->isNotEmpty())
+                        <img src="{{ $booking->user->getFirstMediaUrl('profile_picture') }}" alt="{{ $booking->user->name }}">
+                        @else
+                        <img src="{{ asset('assets/images/avatar.jpg') }}" alt="{{ $booking->user->name }}">
+                        @endif
+                        <h2>{{ $booking->user->name }}</h2>
+                        <p>{{ $booking->created_at->diffForHumans() }}</p>
                     </div>
-                    <div class="user">
-                        <img src="{{ asset('assets/images/profile-3.jpg') }}">
-                        <h2>Amir</h2>
-                        <p>3 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="{{ asset('assets/images/profile-4.jpg') }}">
-                        <h2>Ember</h2>
-                        <p>6 Hours Ago</p>
-                    </div>
+                    @endforeach
                     <div class="user">
                         <img src="{{ asset('assets/images/plus.png') }}">
                         <h2>More</h2>
-                        <p>BOOKING</p>
+                        <p> <a href="{{route('admin.users.booking')}}">BOOKING</a></p>
                     </div>
                 </div>
             </div>
@@ -303,7 +299,7 @@
 
     </div>
 
-    
+
     <script src="{{ asset('assets/js/index.js') }}"></script>
 </body>
 

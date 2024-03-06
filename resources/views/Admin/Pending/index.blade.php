@@ -29,25 +29,25 @@
             </div>
 
             <div class="sidebar">
-                <a href="#">
+                <a href="{{route('admin.index')}}">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="users.html">
+                <a href="{{route('admin.users.index')}}">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html">
+                <a href="{{route('admin.organizer.index')}}">
                     <span class="material-icons-sharp">
                         business
                     </span>
                     <h3>Organizer</h3>
                 </a>
-                <a href="Requests.html">
+                <a href="{{route('admin.users.booking')}}">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -62,7 +62,7 @@
                     <span class="message-count">27</span>
                 </a> -->
 
-                <a href="Category.html">
+                <a href="{{route('admin.category.index')}}">
                     <span class="material-icons-sharp">
                         add_circle_outline
                     </span>
@@ -165,11 +165,11 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Reza</b></p>
-                        <small class="text-muted">Admin</small>
+                        <p>Hey, <b>{{Auth::user()->name}}</b></p>
+                        <small class="text-muted">{{ Auth::user()->roles()->first()->name }}</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="images/profile-1.jpg">
+                        <img src="{{ asset('assets/images/profile-1.jpg') }}">
                     </div>
                 </div>
 

@@ -27,7 +27,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="index.html">
+                <a href="{{route('admin.index')}}">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
@@ -45,7 +45,7 @@
                     </span>
                     <h3>Organizer</h3>
                 </a>
-                <a href="Requests.html">
+                <a href="{{route('admin.users.booking')}}">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -66,13 +66,13 @@
                     <h3>Categories</h3>
                     <!-- <span class="message-count">27</span> -->
                 </a>
-                <a href="projects.html">
+                <a href="{{route('admin.event.index')}}">
                     <span class="material-icons-sharp">
                         inventory
                     </span>
                     <h3>Events</h3>
                 </a>
-                <a href="pendingproject.html">
+                <a href="{{route('admin.event.getUnverifiedEvents')}}">
                     <span class="material-icons-sharp">
                         report_gmailerrorred
                     </span>

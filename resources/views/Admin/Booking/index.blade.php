@@ -27,25 +27,25 @@
             </div>
 
             <div class="sidebar">
-                <a href="#" >
+                <a href="{{route('admin.index')}}" >
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="users.html">
+                <a href="{{route('admin.users.index')}}">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html" >
+                <a href="{{route('admin.organizer.index')}}" >
                     <span class="material-icons-sharp">
                         business
                     </span>
                     <h3>Organizer</h3>
                 </a>
-                <a href="Requests.html" class="active">
+                <a href="{{route('admin.users.booking')}}" class="active">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -59,13 +59,21 @@
                     <h3>Notif</h3>
                     <span class="message-count">27</span>
                 </a> -->
-                <a href="projects.html">
+                <a href="{{route('admin.category.index')}}" >
+                    <span class="material-icons-sharp">
+                        add_circle_outline
+                    </span>
+                    <h3>Categories</h3>
+                    <!-- <span class="message-count">27</span> -->
+                </a>
+
+                <a href="{{route('admin.event.index')}}">
                     <span class="material-icons-sharp">
                         inventory
                     </span>
                     <h3>Events</h3>
                 </a>
-                <a href="pendingproject.html">
+                <a href="{{route('admin.event.getUnverifiedEvents')}}">
                     <span class="material-icons-sharp">
                         report_gmailerrorred
                     </span>
@@ -105,7 +113,29 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+        @foreach ($bookings as $booking)
+            <tr>
+                <td>
+                    {{ $booking->user->name }}
+
+                    <!-- Display user image -->
+                    @if($booking->user->getMedia('profile_picture')->isNotEmpty())
+                        <img src="{{ $booking->user->getFirstMediaUrl('profile_picture') }}" alt="{{ $booking->user->name }}" style="width: 40px; border-radius: 50%;">
+                    @else
+                        <img src="{{ asset('assets/images/avatar.jpg') }}" alt="{{ $booking->user->name }}" style="width: 40px; border-radius: 50%;">
+                    @endif
+                </td>
+                <td>{{ $booking->event->title }}</td>
+                <td>{{ $booking->event->organizer->name }}</td>
+                <td>{{ $booking->ticket_number}}</td>
+                <td>{{ $booking->event->available_tickets }}</td>
+                <td>
+                    <!-- Add any additional actions or buttons as needed -->
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
                 </table>
             </div>
 
@@ -131,11 +161,11 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Reza</b></p>
-                        <small class="text-muted">Admin</small>
+                        <p>Hey, <b>{{Auth::user()->name}}</b></p>
+                        <small class="text-muted">{{ Auth::user()->roles()->first()->name }}</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="images/profile-1.jpg">
+                        <img src="{{ asset('assets/images/profile-1.jpg') }}">
                     </div>
                 </div>
 
