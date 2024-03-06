@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
         Route::put('/events/{event}', [EventController::class, 'update'])->name('admin.events.update');
         Route::get('/booking', [AdminController::class, 'booking'])->name('admin.users.booking');
+        
     });
    
     Route::prefix('organizer')->group(function () {

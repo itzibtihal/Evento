@@ -5,8 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <title> Dashboard | Evento</title>
+
+    <style>
+        .recent-orders {
+            text-align: center;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            /* Adjust the gap between charts as needed */
+            margin-top: 20px;
+            /* Adjust the top margin as needed */
+        }
+
+        canvas {
+            border-radius: 50%;
+        }
+    </style>
 </head>
 
 <body>
@@ -84,12 +108,16 @@
                     </span>
                     <h3>Settings</h3>
                 </a>
-                <a href="#">
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <span class="material-icons-sharp">
                         logout
                     </span>
                     <h3>Logout</h3>
                 </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </aside>
         <!-- End of Sidebar Section -->
@@ -177,22 +205,94 @@
 
             <!-- Recent Orders Table -->
             <div class="recent-orders">
-                <h2>Recent Event</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Event Name</th>
-                            <th>Organizer Name</th>
-                            <th>Tickets</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                <a href="#">Show All</a>
+                <h1>User Registrations</h1>
+
+                <div class="chart-container">
+                    <canvas id="empGender" width="500" height="300"></canvas>
+                    <canvas id="userAge" width="500" height="300"></canvas>
+                </div>
             </div>
+
+            <script>
+                $(function() {
+
+                    // GENDER CHART
+                    var genderData = <?php echo json_encode($genderData); ?>;
+                    var genderChartCanvas = $('#empGender').get(0).getContext('2d');
+                    var genderChartData = {
+                        labels: genderData.gender_label,
+                        datasets: [{
+                            data: genderData.gender_data,
+                            backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
+                            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                            borderWidth: 1,
+                        }, ],
+                    };
+                    var genderOptions = {
+                        responsive: false,
+                        maintainAspectRatio: false,
+                        cutoutPercentage: 80,
+                        tooltips: {
+                            callbacks: {
+                                label: (tooltipItem, data) => {
+                                    var value = data.datasets[0].data[tooltipItem.index];
+                                    var total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    var pct = 100 / total * value;
+                                    var pctRounded = Math.round(pct * 10) / 10;
+                                    return value + ' (' + pctRounded + '%)';
+                                },
+                            },
+                        },
+                    };
+                    var genderChart = new Chart(genderChartCanvas, {
+                        type: 'doughnut',
+                        data: genderChartData,
+                        options: genderOptions,
+                    });
+
+                    // AGE CHART
+                    var ageData = <?php echo json_encode($ageData); ?>;
+                    var ageChartCanvas = $('#userAge').get(0).getContext('2d');
+                    var ageChartData = {
+                        labels: ageData.age_label,
+                        datasets: [{
+                            data: ageData.age_data,
+                            backgroundColor: ['#f56954', '#00a65a'],
+                            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                            borderWidth: 1,
+                        }, ],
+                    };
+                    var ageOptions = {
+                        responsive: false,
+                        maintainAspectRatio: false,
+                        cutoutPercentage: 80,
+                        tooltips: {
+                            callbacks: {
+                                label: (tooltipItem, data) => {
+                                    var value = data.datasets[0].data[tooltipItem.index];
+                                    var total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    var pct = 100 / total * value;
+                                    var pctRounded = Math.round(pct * 10) / 10;
+                                    return value + ' (' + pctRounded + '%)';
+                                },
+                            },
+                        },
+                    };
+                    var ageChart = new Chart(ageChartCanvas, {
+                        type: 'doughnut',
+                        data: ageChartData,
+                        options: ageOptions,
+                    });
+                });
+
+                var genderData = <?php echo json_encode($genderData); ?>;
+                var ageData = <?php echo json_encode($ageData); ?>;
+                console.log('Script Executed');
+            </script>
+
+
+
+
             <!-- End of Recent Orders -->
 
         </main>
