@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('event_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('ticket_number');
+            $table->enum('status', ['confirmed', 'waiting', 'rejected']);
+            $table->text('reason_of_reject')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

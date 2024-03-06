@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\User;
 
 class AdminController extends Controller
@@ -14,10 +15,11 @@ class AdminController extends Controller
     }
 
     public function booking()
-    {
-        $siteUserCount = User::count();
-        return view('admin.booking.index', compact('booking')); 
-    }
+{
+   
+    $bookings = Booking::all();
+    return view('admin.booking.index', compact('bookings'));
+}
 
     
 }
