@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+
+
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <title> Dashboard | Evento</title>
 </head>
@@ -13,11 +15,11 @@
 
     <div class="container">
         <!-- Sidebar Section -->
-        
+
         <aside>
             <div class="toggle">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVEN<span class="danger">TO</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -34,13 +36,13 @@
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="users.html" class="active">
+                <a href="{{route('admin.users.index')}}" class="active">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html" >
+                <a href="{{route('admin.organizer.index')}}">
                     <span class="material-icons-sharp">
                         business
                     </span>
@@ -52,7 +54,7 @@
                     </span>
                     <h3>Booking</h3>
                 </a>
-                
+
                 <!-- <a href="#">
                     <span class="material-icons-sharp">
                         mail_outline
@@ -60,13 +62,13 @@
                     <h3>Notif</h3>
                     <span class="message-count">27</span>
                 </a> -->
-                <a href="Category.html">
+                <a href="{{route('admin.category.index')}}">
                     <span class="material-icons-sharp">
                         add_circle_outline
                     </span>
                     <h3>Categories</h3>
                     <!-- <span class="message-count">27</span> -->
-                </a> 
+                </a>
 
 
                 <a href="projects.html">
@@ -104,47 +106,76 @@
             <div class="new-users">
                 <h2>Blocked Users</h2>
                 <div class="user-list">
+                    @foreach($blockedUsers as $user)
                     <div class="user">
-                        <img src="images/profile-2.jpg">
-                        <h2>Jack</h2>
-                        <p>54 Min Ago</p>
+                        @if($user->getMedia('profile_picture')->isNotEmpty())
+                        <img src="{{ $user->getFirstMediaUrl('profile_picture') }}" alt="{{ $user->name }}">
+                        @else
+                        <img src="{{ asset('assets/images/avatar.jpg') }}" alt="{{ $user->name }}">
+                        @endif
+                        <h2>{{ $user->name }}</h2>
+                        <p>{{ $user->updated_at->diffForHumans() }}</p>
                     </div>
-                    <div class="user">
-                        <img src="images/profile-3.jpg">
-                        <h2>Amir</h2>
-                        <p>3 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        <p>6 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        <p>7 Hours Ago</p>
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <!-- End of 4 Users Section -->
-            
+
             <div class="recent-orders">
-                <h2>All  Users</h2>
-                
+                <h2>All Users</h2>
+
                 <table>
                     <thead>
                         <tr>
                             <th>Profile</th>
                             <th>Full Name</th>
-                            <th>Phone Number</th>
+                            <th>Age</th>
                             <th>Email</th>
                             <th>Status</th>
-                            <th></th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @foreach($users as $user)
+                        <tr>
+                            <td>
+                                @if($user->getMedia('profile_picture')->isNotEmpty())
+                                <img src="{{ $user->getFirstMediaUrl('profile_picture') }}" alt="{{ $user->name }}">
+                                @else
+                                <img src="{{ asset('assets/images/avatar.jpg') }}" style="width: 40px;" alt="{{ $user->name }}">
+                                @endif
+                            </td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->age ?? 'N/A' }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                @if($user->status == 0)
+                                Active
+                                @elseif($user->status == 1)
+                                Blocked
+                                @else
+                                Unknown Status
+                                @endif
+                            </td>
+
+                            <td>
+                                <a href="#">Edit</a>
+                            </td>
+
+                            
+
+                        </tr>
+
+
+
+
+                        @endforeach
+                    </tbody>
                 </table>
+
+
             </div>
+
 
         </main>
         <!-- End of Main Content -->
@@ -168,11 +199,11 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Reza</b></p>
-                        <small class="text-muted">Admin</small>
+                        <p>Hey, <b>{{Auth::user()->name}}</b></p>
+                        <small class="text-muted">{{ Auth::user()->roles()->first()->name }}</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="images/profile-1.jpg">
+                        <img src="{{ asset('assets/images/profile-1.jpg') }}">
                     </div>
                 </div>
 
@@ -181,7 +212,7 @@
 
             <div class="user-profile">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVENTO</h2>
                     <p>Event Booking</p>
                 </div>
@@ -249,6 +280,7 @@
 
 
     </div>
+
 
     <script src="{{ asset('assets/js/index.js') }}"></script>
 </body>

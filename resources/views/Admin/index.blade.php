@@ -27,13 +27,13 @@
             </div>
 
             <div class="sidebar">
-                <a href="#" class="active">
+                <a href="{{route('admin.index')}}" class="active">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="users.html">
+                <a href="{{route('admin.users.index')}}">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
@@ -103,7 +103,7 @@
                 <div class="sales">
                     <div class="status">
                         <div class="info">
-                            <h3>Total Sales</h3>
+                            <h3>TOTAL BOOKING</h3>
                             <h1>$65,024</h1>
                         </div>
                         <div class="progresss">
@@ -119,8 +119,8 @@
                 <div class="visits">
                     <div class="status">
                         <div class="info">
-                            <h3>Site Visit</h3>
-                            <h1>24,981</h1>
+                            <h3>SITE USERS</h3>
+                            <h1>{{ $siteUserCount }}</h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -135,7 +135,7 @@
                 <div class="searches">
                     <div class="status">
                         <div class="info">
-                            <h3>Searches</h3>
+                            <h3>TODAY'S EVENTS</h3>
                             <h1>14,147</h1>
                         </div>
                         <div class="progresss">
@@ -222,8 +222,8 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Reza</b></p>
-                        <small class="text-muted">Admin</small>
+                        <p>Hey, <b>{{Auth::user()->name}}</b></p>
+                        <small class="text-muted">{{ Auth::user()->roles()->first()->name }}</small>
                     </div>
                     <div class="profile-photo">
                         <img src="{{ asset('assets/images/profile-1.jpg') }}">

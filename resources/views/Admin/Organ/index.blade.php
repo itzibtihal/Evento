@@ -16,7 +16,7 @@
         <aside>
             <div class="toggle">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVEN<span class="danger">TO</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -27,19 +27,19 @@
             </div>
 
             <div class="sidebar">
-                <a href="index.html" >
+                <a href="index.html">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="users.html">
+                <a href="{{route('admin.users.index')}}">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html" class="active">
+                <a href="{{route('admin.organizer.index')}}" class="active">
                     <span class="material-icons-sharp">
                         business
                     </span>
@@ -51,7 +51,7 @@
                     </span>
                     <h3>Booking</h3>
                 </a>
-                
+
                 <!-- <a href="#">
                     <span class="material-icons-sharp">
                         mail_outline
@@ -59,13 +59,13 @@
                     <h3>Notif</h3>
                     <span class="message-count">27</span>
                 </a> -->
-                <a href="Category.html">
+                <a href="{{route('admin.category.index')}}">
                     <span class="material-icons-sharp">
                         add_circle_outline
                     </span>
                     <h3>Categories</h3>
                     <!-- <span class="message-count">27</span> -->
-                </a> 
+                </a>
                 <a href="projects.html">
                     <span class="material-icons-sharp">
                         inventory
@@ -101,43 +101,62 @@
             <div class="new-users">
                 <h2>Recent Organizers</h2>
                 <div class="user-list">
+                    @foreach($recentOrganizers as $organizer)
                     <div class="user">
-                        <img src="images/profile-2.jpg">
-                        <h2>Jack</h2>
-                      
-                    </div>
-                    <div class="user">
-                        <img src="images/profile-3.jpg">
-                        <h2>Amir</h2>
+                        
+                        @if($organizer->getMedia('profile_picture')->isNotEmpty())
+                        <img src="{{ $organizer->getFirstMediaUrl('profile_picture') }}" alt="{{ $organizer->name }}">
+                        @else
+                        <img src="{{ asset('assets/images/avatar.jpg') }}" alt="{{ $organizer->name }}">
+                        @endif
+                        
+                        <h2>{{ $organizer->name }}</h2>
                        
                     </div>
-                    <div class="user">
-                        <img src="images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        
-                    </div>
-                    <div class="user">
-                        <img src="images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        
-                    </div>
+                    @endforeach
                 </div>
             </div>
             <!-- End of 4 Users Section -->
-            
+
             <div class="recent-orders">
                 <h2>All Organizers</h2>
-                <a href="">Add new Organizer</a>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Logo</th>
+                        <tr> 
+                            <th>Profile</th>
                             <th>Name</th>
-                            <th>description</th>
-                            <th></th>
+                            <th>Organization</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+        @foreach($users as $user)
+            <tr>
+                <td>
+                    @if($user->getMedia('profile_picture')->isNotEmpty())
+                        <img src="{{ $user->getFirstMediaUrl('profile_picture') }}" alt="{{ $user->name }}" style="width: 40px;">
+                    @else
+                        <img src="{{ asset('assets/images/avatar.jpg') }}" alt="{{ $user->name }}" style="width: 40px;">
+                    @endif
+                </td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->organisation ?? 'N/A' }}</td>
+                <td>
+                    @if($user->status == 0)
+                        Active
+                    @elseif($user->status == 1)
+                        Blocked
+                    @else
+                        Unknown Status
+                    @endif
+                </td>
+                <td>
+                <a href="#">Edit</a>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
                 </table>
             </div>
 
@@ -163,11 +182,11 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Hey, <b>Reza</b></p>
-                        <small class="text-muted">Admin</small>
+                        <p>Hey, <b>{{Auth::user()->name}}</b></p>
+                        <small class="text-muted">{{ Auth::user()->roles()->first()->name }}</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="images/profile-1.jpg">
+                        <img src="{{ asset('assets/images/profile-1.jpg') }}">
                     </div>
                 </div>
 
@@ -176,7 +195,7 @@
 
             <div class="user-profile">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVENTO</h2>
                     <p>Event Booking</p>
                 </div>

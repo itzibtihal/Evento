@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <style>
-         .modal {
+        .modal {
             display: none;
             position: fixed;
             top: 50%;
@@ -30,28 +31,35 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 0;
         }
+
         .modal input,
-.modal button {
-    margin-bottom: 10px;
-    padding: 8px;
-}
-.modal input {
-    height: 30px; /* Add height */
-    border: 1px solid black; /* Add border color */
-    border-radius: 5px; /* Add border-radius */
-    padding: 8px;
-    margin-bottom: 10px;
-}
-.modal form {
-    display: flex;
-    flex-direction: column;
-}
-.modal-close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
+        .modal button {
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+
+        .modal input {
+            height: 30px;
+            /* Add height */
+            border: 1px solid black;
+            /* Add border color */
+            border-radius: 5px;
+            /* Add border-radius */
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .modal form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
     </style>
     <title> Dashboard | Evento</title>
 </head>
@@ -63,7 +71,7 @@
         <aside>
             <div class="toggle">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVEN<span class="danger">TO</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -80,13 +88,13 @@
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="users.html">
+                <a href="{{route('admin.users.index')}}">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html">
+                <a href="{{route('admin.organizer.index')}}">
                     <span class="material-icons-sharp">
                         business
                     </span>
@@ -107,7 +115,7 @@
                     <span class="message-count">27</span>
                 </a> -->
 
-                <a href="Category.html" class="active">
+                <a href="{{route('admin.category.index')}}" class="active">
                     <span class="material-icons-sharp">
                         add_circle_outline
                     </span>
@@ -159,7 +167,29 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @foreach($categories as $category)
+                        <tr>
+                            <td>{{ $category->id }}</td>
+                            <td>{{ $category->name }}</td>
+                            <td> <span>
+                                    <a href="">
+                                        <i class="fa-solid fa-pencil-alt" style="color: blue;"></i>
+                                    </a>
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this category?')">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                            <i class="fa-solid fa-trash" style="color: red;"></i>
+                                        </button>
+                                    </form>
+                                </span>
+                            </td>
+                            <td></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
 
@@ -167,12 +197,26 @@
             <div class="modal" id="modal">
                 <!-- Your modal content goes here -->
                 <h2>Add New Category</h2> <br>
-                 <form action="" method="post">
+                <form action="{{ route('admin.category.store') }}" method="post">
+                    @csrf
                     <label for="category"> Category Name</label> <br>
                     <input type="text" name="name" id="" placeholder="Category ...."><br>
                     <button type="submit" onclick="closeModal()" style="border-radius: 10px;"> Submit</button>
-                 </form>
-                
+                </form>
+
+            </div>
+
+
+            <div class="modal" id="edit-modal">
+                <!-- Your edit modal content goes here -->
+                <h2 id="edit-modal-title">Edit Category</h2> <br>
+                <form id="edit-category-form" method="post">
+                    @csrf
+                    @method('put')
+                    <label for="category"> Category Name</label> <br>
+                    <input type="text" name="name" id="edit-category-name" placeholder="Category ...."><br>
+                    <button type="submit" onclick="closeEditModal()" style="border-radius: 10px;"> Update</button>
+                </form>
             </div>
 
         </main>
@@ -210,7 +254,7 @@
 
             <div class="user-profile">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVENTO</h2>
                     <p>Event Booking</p>
                 </div>
@@ -278,14 +322,14 @@
 
     </div>
 
-   
+
     <script src="{{ asset('assets/js/index.js') }}"></script>
     <script>
         function openModal() {
             document.getElementById('modal').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
-    
+
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';

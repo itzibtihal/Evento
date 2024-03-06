@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrganizController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\Organizer\OrganizerController;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +32,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('/index', [AdminController::class, 'index'])->name('admin.index');
-       
+        Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::get('/organizer-users', [OrganizController::class, 'index'])->name('admin.organizer.index');
+        Route::put('/users/{user}/update-status', [UserController::class, 'updateStatus'])->name('admin.users.update-status');
+        Route::get('/category', [CategoryController::class, 'index'])->name('admin.category.index');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('admin.category.store');
+        Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+        Route::get('/admin/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
     });
    
     Route::prefix('organizer')->group(function () {
