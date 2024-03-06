@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\OrganizController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Guest\GuestController;
@@ -39,6 +40,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/categories', [CategoryController::class, 'store'])->name('admin.category.store');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
         Route::get('/admin/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+
+        Route::get('/evento-events', [EventController::class, 'index'])->name('admin.event.index');
+        Route::get('/evento-pendingevents', [EventController::class, 'getUnverifiedEvents'])->name('admin.event.getUnverifiedEvents');
+        Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+        Route::put('/events/{event}', [EventController::class, 'update'])->name('admin.events.update');
+        Route::get('/booking', [AdminController::class, 'booking'])->name('admin.users.booking');
     });
    
     Route::prefix('organizer')->group(function () {

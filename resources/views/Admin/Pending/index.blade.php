@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <title> Dashboard | Evento</title>
 </head>
@@ -16,7 +18,7 @@
         <aside>
             <div class="toggle">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVEN<span class="danger">TO</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -27,7 +29,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="#" >
+                <a href="#">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
@@ -39,7 +41,7 @@
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html" >
+                <a href="partners.html">
                     <span class="material-icons-sharp">
                         business
                     </span>
@@ -51,7 +53,7 @@
                     </span>
                     <h3>Booking</h3>
                 </a>
-                
+
                 <!-- <a href="#">
                     <span class="material-icons-sharp">
                         mail_outline
@@ -60,20 +62,20 @@
                     <span class="message-count">27</span>
                 </a> -->
 
-               <a href="Category.html">
+                <a href="Category.html">
                     <span class="material-icons-sharp">
                         add_circle_outline
                     </span>
                     <h3>Categories</h3>
                     <!-- <span class="message-count">27</span> -->
-                </a> 
-                <a href="projects.html" >
+                </a>
+                <a href="{{route('admin.event.index')}}">
                     <span class="material-icons-sharp">
                         inventory
                     </span>
                     <h3>Events</h3>
                 </a>
-                <a href="pendingproject.html" class="active">
+                <a href="{{route('admin.event.getUnverifiedEvents')}}" class="active">
                     <span class="material-icons-sharp">
                         report_gmailerrorred
                     </span>
@@ -98,16 +100,15 @@
         <!-- Main Content -->
         <main>
             <h1>Pending Events</h1>
-         
+
             <div class="recent-orders">
-                <h2>All   Pending - rejected   Events</h2>
-                
+                <h2> * NOT VERIFIED * Events</h2>
+
                 <table>
                     <thead>
                         <tr>
                             <th>Title</th>
                             <th>Date</th>
-                            <th>location</th>
                             <th>Category</th>
                             <th>Type</th>
                             <th>Created By</th>
@@ -116,12 +117,34 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @foreach($unverifiedEvents as $event)
+                        <tr>
+                            <td>{{ $event->title }}</td>
+                            <td>{{ $event->date }}</td>
+                            <td>{{ $event->category->name }}</td>
+                            <td>{{ $event->type }}</td>
+                            <td>{{ $event->organizer->name }}</td>
+                            <td>{{ $event->status_event }}</td>
+                            <td>
+                                <a href="{{ route('events.edit', ['event' => $event->id]) }}">
+                                    <i class="fa-solid fa-pencil-alt" style="color: blue;"></i>
+                                </a>
+                            </td>
+
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
+
             </div>
+
+
 
         </main>
         <!-- End of Main Content -->
+
+
 
         <!-- Right Section -->
         <div class="right-section">
@@ -155,7 +178,7 @@
 
             <div class="user-profile">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVENTO</h2>
                     <p>Event Booking</p>
                 </div>
@@ -224,6 +247,36 @@
     </div>
 
     <script src="{{ asset('assets/js/index.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function openEditModal() {
+            var hiddenInputValue = $("input[name='id']").val();
+
+            
+            if (hiddenInputValue) {
+                
+                console.log("Event ID: " + hiddenInputValue);
+
+                
+                $('#editStatusModal').modal('show');
+            } else {
+                console.error("Event ID is missing or invalid.");
+            }
+        }
+    </script>
+
+
 </body>
 
 </html>

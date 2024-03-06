@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <title> Dashboard | Evento</title>
 </head>
 
@@ -16,7 +18,7 @@
         <aside>
             <div class="toggle">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVEN<span class="danger">TO</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -27,7 +29,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="#" >
+                <a href="#">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
@@ -39,7 +41,7 @@
                     </span>
                     <h3>Evento Users</h3>
                 </a>
-                <a href="partners.html" >
+                <a href="partners.html">
                     <span class="material-icons-sharp">
                         business
                     </span>
@@ -51,7 +53,7 @@
                     </span>
                     <h3>Booking</h3>
                 </a>
-                
+
                 <!-- <a href="#">
                     <span class="material-icons-sharp">
                         mail_outline
@@ -65,14 +67,14 @@
                     </span>
                     <h3>Categories</h3>
                     <!-- <span class="message-count">27</span> -->
-                </a> 
+                </a>
                 <a href="projects.html" class="active">
                     <span class="material-icons-sharp">
                         inventory
                     </span>
                     <h3>Events</h3>
                 </a>
-                <a href="pendingproject.html">
+                <a href="{{route('admin.event.getUnverifiedEvents')}}">
                     <span class="material-icons-sharp">
                         report_gmailerrorred
                     </span>
@@ -97,10 +99,10 @@
         <!-- Main Content -->
         <main>
             <h1>Events</h1>
-         
+
             <div class="recent-orders">
                 <h2>All Events</h2>
-                
+
                 <table>
                     <thead>
                         <tr>
@@ -115,7 +117,24 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @foreach($events as $event)
+                        <tr>
+                            <td>{{ $event->title }}</td>
+                            <td>{{ $event->date }}</td>
+                            <td>{{ $event->lieu }}</td>
+                            <td>{{ $event->category->name }}</td>
+                            <td>{{ $event->type }}</td>
+                            <td>{{ $event->organizer->name }}</td>
+                            <td>{{ $event->status_event }}</td>
+                            <td>
+                                <a href="{{ route('events.edit', ['event' => $event->id]) }}">
+                                    <i class="fa-solid fa-pencil-alt" style="color: blue;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
 
@@ -154,7 +173,7 @@
 
             <div class="user-profile">
                 <div class="logo">
-                <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
+                    <img src="{{ asset('assets/images/logo-envent.png') }}" id="logo-image">
                     <h2>EVENTO</h2>
                     <p>Event Booking</p>
                 </div>

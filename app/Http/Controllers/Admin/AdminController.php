@@ -13,6 +13,12 @@ class AdminController extends Controller
         return view('admin.index', compact('siteUserCount')); 
     }
 
+    public function booking()
+    {
+        $siteUserCount = User::count();
+        return view('admin.booking.index', compact('booking')); 
+    }
+
     
 }
 

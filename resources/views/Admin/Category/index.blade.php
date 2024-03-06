@@ -122,7 +122,7 @@
                     <h3>Categories</h3>
                     <!-- <span class="message-count">27</span> -->
                 </a>
-                <a href="projects.html">
+                <a href="{{route('admin.event.index')}}">
                     <span class="material-icons-sharp">
                         inventory
                     </span>
