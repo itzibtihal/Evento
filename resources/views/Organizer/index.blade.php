@@ -9,7 +9,7 @@
                 <div class="status">
                     <div class="info">
                         <h3>TOTAL BOOKING</h3>
-                        <h1></h1>
+                        <h1>{{ $totalBookings }}</h1>
                     </div>
                     <div class="progresss">
                         <svg>
@@ -25,7 +25,7 @@
                 <div class="status">
                     <div class="info">
                         <h3>MY EVENTS</h3>
-                        <h1></h1>
+                        <h1>{{ $myEventsCount }}</h1>
                     </div>
                     <div class="progresss">
                         <svg>
@@ -41,7 +41,7 @@
                 <div class="status">
                     <div class="info">
                         <h3> PENDING BOOKING </h3>
-                        <h1></h1>
+                        <h1>{{ $pendingBookingsCount }}</h1>
                     </div>
                     <div class="progresss">
                         <svg>

@@ -132,7 +132,7 @@
                             <td>{{ $event->organizer->name }}</td>
                             <td>{{ $event->status_event }}</td>
                             <td>
-                                <a href="{{ route('events.edit', ['event' => $event->id]) }}">
+                                <a href="{{ route('event.edit', ['event' => $event->id]) }}">
                                     <i class="fa-solid fa-pencil-alt" style="color: blue;"></i>
                                 </a>
                             </td>
