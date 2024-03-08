@@ -47,7 +47,7 @@ public function store(EventStoreRequest $request)
     
     if ($request->hasFile('event_banner')) {
         $event->addMediaFromRequest('event_banner')
-            ->toMediaCollection('event_images');
+            ->toMediaCollection('media/events' , 'media_events');
     }
 
     return redirect()->route('organizer.events.pending')->with('success', 'Event created successfully!');

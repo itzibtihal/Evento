@@ -43,7 +43,8 @@ class Event extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('event_images')
+        $this->addMediaCollection('media_events')
+            ->useDisk('media_events')
             ->singleFile(); 
     }
 }

@@ -16,16 +16,47 @@
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.css') }}">
+    
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/owl-carousel.css') }}">
+    
     <link rel="stylesheet" href="{{ asset('assets/css/tooplate-artxibition.css') }}">
-    <!--
+    
+    <style>
+        .pagination {
+    margin-top: 20px;
+    text-align: center;
+}
 
-Tooplate 2125 ArtXibition
+.pagination ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
 
-https://www.tooplate.com/view/2125-artxibition
+.pagination li {
+    display: inline;
+    margin: 0 2px;
+    text-align: center;
+}
 
--->
+.pagination li a, .pagination .disabled {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.pagination li.active a {
+    background-color: #007bff;
+    color: #fff;
+}
+    </style>
+
 </head>
 
 <body>
@@ -57,8 +88,8 @@ https://www.tooplate.com/view/2125-artxibition
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li><a href="{{ route('guest.index') }}"  class="active">Home</a></li>
-                            <li><a href="{{ route('guest.event.index') }}"  >Shows & Events</a></li>
+                            <li><a href="{{ route('guest.index') }}" >Home</a></li>
+                            <li><a href="{{ route('guest.event.index') }}" class="active">Shows & Events</a></li>
                             <li><a href="tickets.html"> My Tickets</a></li>
                             <li><a href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">logout</a>
@@ -78,176 +109,112 @@ https://www.tooplate.com/view/2125-artxibition
         </div>
     </header>
     <!-- ***** Header Area End ***** -->
-
-
-
-
-
-
-
-
-
-
-
-    <!-- ***** Main Banner Area Start ***** -->
-    <div class="main-banner">
-
+    <div class="page-heading-shows-events">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="main-content">
-
-                        <h6>Save the date for a unique and exciting experience!</h6>
-                        <h2>Unforgettable moments await! Join us for an inspiring event</h2>
-                        <div class="main-white-button">
-                            <a href="tickets.html">Purchase Your Tickets</a>
-                        </div>
-                    </div>
+                    <h2>Tickets On Sale Now!</h2>
+                    <span>Check out upcoming and past shows & events and grab your ticket right now.</span>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ***** Main Banner Area End ***** -->
 
-    <!-- *** Owl Carousel Items ***-->
-    <div class="show-events-carousel">
+
+
+    <div class="tickets-page">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- *** Owl Carousel Items ***-->
-                    <div class="show-events-carousel">
-                        <div class="container">
+                    <div class="search-box">
+                        <form id="subscribe" action="" method="get">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="owl-show-events owl-carousel">
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-01.jpg') }}"
-                                                    alt=""></a>
+                                <div class="col-lg-5">
+                                    <div class="search-heading">
+                                        <h4>Sort The Upcoming Shows & Events By:</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <select value="month">
+                                                <option value="month">Month</option>
+                                                <option name="June" id="June">June</option>
+                                                <option name="July" id="July">July</option>
+                                                <option name="August" id="August">August</option>
+                                                <option name="September" id="September">September</option>
+                                            </select>
                                         </div>
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-02.jpg') }}"
-                                                    alt=""></a>
+                                        <div class="col-lg-3">
+                                            <select value="location">
+                                                <option value="location">Location</option>
+                                                <option name="Brazil" id="Brazil">Brazil</option>
+                                                <option name="Europe" id="Europe">Europe</option>
+                                                <option name="US" id="US">US</option>
+                                                <option name="Asia" id="Asia">Asia</option>
+                                            </select>
                                         </div>
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-03.jpg') }}"
-                                                    alt=""></a>
+                                        <div class="col-lg-3">
+                                            <select value="month">
+                                                <option value="month">Price</option>
+                                                <option name="min" id="min">$0 - $50</option>
+                                                <option name="standard" id="standard">$50 - $100</option>
+                                                <option name="hight" id="hight">$100 - $200</option>
+                                            </select>
                                         </div>
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-04.jpg') }}"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-01.jpg') }}"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-02.jpg') }}"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-03.jpg') }}"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="item">
-                                            <a href="event-details.html"><img
-                                                    src="{{ asset('assets/images/show-events-04.jpg') }}"
-                                                    alt=""></a>
+                                        <div class="col-lg-3">
+                                            <fieldset>
+                                            <button type="submit" id="form-submit" class="main-dark-button">Submit</button>
+                                            </fieldset>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- *** Venues & Tickets ***-->
-    <div class="venue-tickets">
-        <div class="container-fluid">
-            <div class="row">
                 <div class="col-lg-12">
-                    <div class="section-heading">
-                        <h2>Our Venues & Tickets</h2>
+                    <div class="heading">
+                        <h2>Tickets Page</h2>
                     </div>
                 </div>
-                @foreach ($verifiedEvents as $event)
-                    <div class="col-lg-4">
-                        <div class="venue-item">
-                            <div class="thumb">
-                                @if($event->getFirstMediaUrl('media/events'))
+                @foreach ($events as $event)
+                <div class="col-lg-4">
+                    <div class="ticket-item">
+                        <div class="thumb">
+                            @if($event->getFirstMediaUrl('media/events'))
                                 <img src="{{$event->getFirstMediaUrl('media/events')}}" alt="Event Image">
                                
                                 @else
-                                    <img src="{{ asset('assets/images/show-events-03.jpg') }}" alt="Default Image">
+                                    <img src="{{ asset('assets/images/ticket-03.jpg') }}" alt="Default Image">
                                 @endif
-                          </div>
-                            <div class="down-content">
-                                <div class="left-content">
-                                    <div class="main-white-button">
-                                        <a href="{{ route('event.details', ['event' => $event->id]) }}">Purchase Tickets</a>
-                                    </div>
-                                </div>
-                                <div class="right-content">
-                                    <h4>{{ $event->title }}</h4>
-                                    <p>{{ $event->lieu }}</p>
-                                    <ul>
-                                        <li><i class="fa fa-sitemap"></i>Available Tickets:
-                                            {{ $event->available_tickets }}</li>
-                                        <li><i class="fa fa-user"></i>Total Tickets: {{ $event->total_tickets }}</li>
-                                    </ul>
-                                    <div class="price">
-                                        <span>1 ticket<br>from <em>${{ $event->ticket_price }}</em></span>
-                                    </div>
-                                </div>
+                            <div class="price">
+                                <span>1 ticket<br>from <em>${{ $event->ticket_price }}</em></span>
+                            </div>
+                        </div>
+                        <div class="down-content">
+                            <span>There Are {{ $event->available_tickets }} Tickets Left For This Show</span>
+                            <h4>{{ $event->title }}</h4>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i> {{ $event->date }} at {{ $event->hour }}</li>
+                                <li><i class="fa fa-map-marker"></i>{{ $event->lieu }}</li>
+                            </ul>
+                            <div class="main-dark-button">
+                                <a href="">Purchase Tickets</a>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                </div>
+            @endforeach
+        </div>
+    
+        <div class="col-lg-12">
+            <div class="pagination">
+                {{ $events->links() }}
             </div>
         </div>
-    </div>
-
-
-    <!-- *** Coming Events ***-->
-    <div class="coming-events">
-        <div class="left-button">
-            <div class="main-white-button">
-                <a href="shows-events.html">Discover More</a>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                @foreach ($todaysEvents as $event)
-                    <div class="col-lg-4">
-                        <div class="event-item">
-                            <div class="thumb">
-                                <a href="{{ route('event.details', ['event' => $event->id]) }}">
-                                    <img src="{{ $event->getFirstMediaUrl('media/events') ?: 'assets/images/show-events-03.jpg' }}" alt="Event Image">
-                                </a>
-                            </div>
-                            <div class="down-content">
-                                <a href="{{ route('event.details', ['event' => $event->id]) }}">
-                                    <h4>{{ $event->title }}</h4>
-                                </a>
-                                <ul>
-                                    <li><i class="fa fa-clock-o"></i> {{ $event->date }} , at  {{ $event->hour }}</li>
-                                    <li><i class="fa fa-map-marker"></i> {{ $event->lieu }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+    
+</div>
             </div>
         </div>
     </div>
@@ -256,13 +223,7 @@ https://www.tooplate.com/view/2125-artxibition
 
 
 
-
-
-
-
-
-
-
+   
 
 
 
@@ -376,14 +337,11 @@ https://www.tooplate.com/view/2125-artxibition
         </div>
     </footer>
 
-    <!-- jQuery -->
     <script src="{{ asset('assets/js/jquery-2.1.0.min.js') }}"></script>
 
-    <!-- Bootstrap -->
     <script src="{{ asset('assets/js/popper.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-
-    <!-- Plugins -->
+    
     <script src="{{ asset('assets/js/scrollreveal.min.js') }}"></script>
     <script src="{{ asset('assets/js/waypoints.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.counterup.min.js') }}"></script>
@@ -391,10 +349,8 @@ https://www.tooplate.com/view/2125-artxibition
     <script src="{{ asset('assets/js/mixitup.js') }}"></script>
     <script src="{{ asset('assets/js/accordions.js') }}"></script>
     <script src="{{ asset('assets/js/owl-carousel.js') }}"></script>
-
-    <!-- Global Init -->
+    
     <script src="{{ asset('assets/js/custom.js') }}"></script>
-
 </body>
 
 </html>

@@ -44,6 +44,12 @@ return [
             'throw' => false,
         ],
 
+        'media_events' => [
+            'driver' => 'local',
+            'root'   => public_path('media/events'),
+            'url'    => env('APP_URL').'/media/events',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

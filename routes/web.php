@@ -62,5 +62,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('guest')->group(function () {
         Route::get('/index', [GuestController::class, 'index'])->name('guest.index');
+        Route::get('/events', [GuestController::class, 'event'])->name('guest.event.index');
+        Route::get('/events/{event}', [GuestController::class, 'show'])->name('event.details');
     });
 });
