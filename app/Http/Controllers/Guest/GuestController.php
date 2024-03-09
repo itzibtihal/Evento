@@ -32,11 +32,9 @@ class GuestController extends Controller
 
     public function show(Event $event)
     {
-        $events = Event::where('verified', 'yes')
-        ->orderByDesc('created_at')
-        ->paginate(6);
+        
 
-        return view('guest.events.details', compact('events'));
+        return view('guest.events.details', compact('event'));
     }
 
     public function events()

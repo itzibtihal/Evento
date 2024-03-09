@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\Organizer\MyEventController;
 use App\Http\Controllers\Organizer\OrganizerController;
+use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -64,5 +65,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/index', [GuestController::class, 'index'])->name('guest.index');
         Route::get('/events', [GuestController::class, 'event'])->name('guest.event.index');
         Route::get('/events/{event}', [GuestController::class, 'show'])->name('event.details');
+        Route::get('/generate-invoice-pdf', [PdfController::class, 'index'])->name('event.invoice');
     });
 });
