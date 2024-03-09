@@ -66,7 +66,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/index', [GuestController::class, 'index'])->name('guest.index');
         Route::get('/events', [GuestController::class, 'event'])->name('guest.event.index');
         Route::get('/events/{event}', [GuestController::class, 'show'])->name('event.details');
-        Route::get('/generate-invoice-pdf', [PdfController::class, 'index'])->name('event.invoice');
+        Route::get('//event/invoice/{booking_id}', [PdfController::class, 'downloadInvoice'])->name('event.invoice');
         Route::post('/create-booking', [GuestController::class, 'createBooking'])->name('create.booking');
         Route::get('/mytickets', [BookingController::class, 'index'])->name('mytickets');
     });

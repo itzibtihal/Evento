@@ -175,7 +175,7 @@ https://www.tooplate.com/view/2125-artxibition
                                 <i class="fas fa-info-circle"></i> View Details
                             </a>
                             @if($booking->status === 'confirmed')
-                            <a  href="{{ route('event.invoice') }}" class="btn btn-success custom-invoice-button">
+                            <a  href="{{ route('event.invoice', ['booking_id' => $booking->id]) }}" class="btn btn-success custom-invoice-button">
                                 <i class="fas fa-download"></i> Download Invoice
                             </a>
                             @endif
