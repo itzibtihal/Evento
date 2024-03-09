@@ -6,10 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="Tooplate">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 
-    <title>ArtXibition Ticket Detail Page</title>
+    <title>EVENTO | Ticket Detail Page</title>
 
 
     <!-- Additional CSS Files -->
@@ -17,6 +18,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/owl-carousel.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/tooplate-artxibition.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!--
 <!--
 
@@ -104,7 +109,10 @@ https://www.tooplate.com/view/2125-artxibition
                         <h4>{{ $event->title }}</h4>
                         <span>{{ $event->available_tickets }} Tickets still available</span>
                         <ul>
-                            <li><i class="fa fa-clock-o"></i> {{ $event->date }} {{ $event->hour }}</li>
+                            <li><i class="fa fa-clock-o"></i> {{ $event->date }}  at {{ $event->hour }}</li>
+                            <li><i class="fa fa-clock-o"></i> {{ $event->duration_of_event }} (h)</li>
+                            <li><i class="fas fa-handshake"></i> {{ $event->organizer->organisation }} </li>
+                            <li><i class="fa fa-tag"></i>{{ $event->category->name }}</li>
                             <li><i class="fa fa-map-marker"></i>{{ $event->lieu }}</li>
                         </ul>
                         
@@ -122,10 +130,82 @@ https://www.tooplate.com/view/2125-artxibition
                                 </div>
                             </div>
                         </div>
-                        <div class="total">
-                            <h4>Total: ${{ $event->ticket_price }}</h4>
-                            <div class="main-dark-button"><a href="{{ route('event.invoice') }}">Purchase Tickets</a></div>
-                        </div>
+                        
+                            <div class="total">
+                                <h4>Total: ${{ $event->ticket_price }}</h4>
+                                <div class="main-dark-button" id="purchaseTicketsBtn" data-event-id="{{ $event->id }}">
+                                    <a href="#">Purchase Tickets</a>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    // Set up CSRF token for AJAX requests
+                                    $.ajaxSetup({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        }
+                                    });
+                            
+                                    $('#purchaseTicketsBtn').on('click', function (e) {
+                                        e.preventDefault();
+                            
+                                        var eventId = $(this).data('event-id');
+                            
+                                        // AJAX request to create a booking
+                                        $.ajax({
+                                            url: '{{ route("create.booking") }}',
+                                            method: 'POST',
+                                            data: { event_id: eventId },
+                                            success: function (response) {
+                                                console.log('Success:', response);
+                            
+                                                // Check for a specific success message or indicator in the response
+                                                if (response.message === 'Booking created successfully') {
+                                                    // Display a SweetAlert success 
+                                                    Swal.fire({
+                                                        icon: 'success',
+                                                        title: 'Booking Successful!',
+                                                        text: 'Your booking has been created successfully. Check the "My Tickets" section.',
+                                                    });
+                                                } else if (response.error === 'Tickets are sold out.') {
+                                                    
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Booking Failed!',
+                                                        text: 'Tickets are sold out for this event.',
+                                                    });
+                                                } else if (response.error === 'You have already booked a ticket for this event.') {
+                                                   
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Booking Failed!',
+                                                        text: 'You have already booked a ticket for this event.',
+                                                    });
+                                                } else if (response.error === 'Event date and time are in the past.') {
+                                                    // Display a SweetAlert 
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Booking Failed!',
+                                                        text: 'The event date is in the past. Please wait for the next event.',
+                                                    });
+                                                }
+                                            },
+                                            error: function (error) {
+                                                console.error('Error:', error);
+                            
+                                                // Display a SweetAlert error 
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Booking Failed',
+                                                    text: 'An error occurred while processing your booking. Please try again.',
+                                                });
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                            
+                        
                         <div class="warn">
                             <p>*You Can Only Buy 1 Ticket For This Show</p>
                         </div>
@@ -267,6 +347,7 @@ https://www.tooplate.com/view/2125-artxibition
 
     <!-- Global Init -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   </body>
 

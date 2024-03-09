@@ -66,5 +66,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/events', [GuestController::class, 'event'])->name('guest.event.index');
         Route::get('/events/{event}', [GuestController::class, 'show'])->name('event.details');
         Route::get('/generate-invoice-pdf', [PdfController::class, 'index'])->name('event.invoice');
+        Route::post('/create-booking', [GuestController::class, 'createBooking'])->name('create.booking');
     });
 });
