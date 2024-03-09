@@ -59,7 +59,7 @@ https://www.tooplate.com/view/2125-artxibition
                         <ul class="nav">
                             <li><a href="{{ route('guest.index') }}"  class="active">Home</a></li>
                             <li><a href="{{ route('guest.event.index') }}"  >Shows & Events</a></li>
-                            <li><a href="tickets.html"> My Tickets</a></li>
+                            <li><a href="{{ route('mytickets') }}"> My Tickets</a></li>
                             <li><a href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">logout</a>
 

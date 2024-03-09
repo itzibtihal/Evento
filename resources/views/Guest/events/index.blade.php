@@ -90,7 +90,7 @@
                         <ul class="nav">
                             <li><a href="{{ route('guest.index') }}" >Home</a></li>
                             <li><a href="{{ route('guest.event.index') }}" class="active">Shows & Events</a></li>
-                            <li><a href="tickets.html"> My Tickets</a></li>
+                            <li><a href="{{ route('mytickets') }}"> My Tickets</a></li>
                             <li><a href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">logout</a>
 
@@ -200,7 +200,7 @@
                                 <li><i class="fa fa-map-marker"></i>{{ $event->lieu }}</li>
                             </ul>
                             <div class="main-dark-button">
-                                <a href="">Purchase Tickets</a>
+                                <a href="{{ route('event.details', ['event' => $event->id]) }}">Purchase Tickets</a>
                             </div>
                         </div>
                     </div>

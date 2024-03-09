@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\OrganizController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Guest\BookingController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\Organizer\MyEventController;
 use App\Http\Controllers\Organizer\OrganizerController;
@@ -67,5 +68,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/events/{event}', [GuestController::class, 'show'])->name('event.details');
         Route::get('/generate-invoice-pdf', [PdfController::class, 'index'])->name('event.invoice');
         Route::post('/create-booking', [GuestController::class, 'createBooking'])->name('create.booking');
+        Route::get('/mytickets', [BookingController::class, 'index'])->name('mytickets');
     });
 });

@@ -47,4 +47,9 @@ class Event extends Model implements HasMedia
             ->useDisk('media_events')
             ->singleFile(); 
     }
+
+    public function bookings()
+{
+    return $this->hasMany(Booking::class);
+}
 }
