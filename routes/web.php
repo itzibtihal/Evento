@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrganizController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Guest\BookingController;
 use App\Http\Controllers\Guest\GuestController;
+use App\Http\Controllers\Organizer\MBookingController;
 use App\Http\Controllers\Organizer\MyEventController;
 use App\Http\Controllers\Organizer\OrganizerController;
 use App\Http\Controllers\PdfController;
@@ -59,6 +60,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/events', [MyEventController::class, 'store'])->name('event.store');
         Route::get('/events/{event}/edit', [MyEventController::class, 'edit'])->name('events.edit');
         Route::put('/events/{event}', [MyEventController::class, 'update'])->name('events.update');
+
+        Route::get('/confirmed-bookings', [MBookingController::class, 'listConfirmedBookings'])
+        ->name('organizer.confirmed-bookings.index');
+        Route::post('/update-booking-status', [MBookingController::class, 'updateStatus'])->name('update.booking.status');
+        Route::get('/list-bookings', [MBookingController::class, 'listBookings'])->name('list.bookings');
     });
 
 

@@ -18,7 +18,7 @@ class Booking extends Model
         'reason_of_reject',
     ];
 
-  
+    public $timestamps = false;
     public function event()
     {
         return $this->belongsTo(Event::class);
