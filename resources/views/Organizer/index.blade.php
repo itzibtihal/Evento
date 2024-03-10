@@ -54,7 +54,46 @@
                 </div>
             </div>
         </div>
-   
+       <br>
+       <div class="recent-orders">
+        <h2> Last Booking </h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Event Name</th>
+                    <th>Event Day</th>
+                    <th>Status</th>
+                    <th>Ticket ID</th>
+                    <th>Available Tickets</th>
+                 
+                </tr>
+            </thead>
+            <tbody>
+@foreach ($Bookings as $booking)
+    <tr>
+        <td>
+            {{ $booking->user->name }}
+
+            <!-- Display user image -->
+            @if($booking->user->getMedia('profile_picture')->isNotEmpty())
+                <img src="{{ $booking->user->getFirstMediaUrl('profile_picture') }}" alt="{{ $booking->user->name }}" style="width: 40px; border-radius: 50%;">
+            @else
+                <img src="{{ asset('assets/images/avatar.jpg') }}" alt="{{ $booking->user->name }}" style="width: 40px; border-radius: 50%;">
+            @endif
+        </td>
+        <td>{{ $booking->event->title }}</td>
+        <td>{{ $booking->event->date}}</td>
+        <td>{{ $booking->status}}</td>
+        <td>{{ $booking->ticket_number}}</td>
+        <td>{{ $booking->event->available_tickets }}</td>
+        
+    </tr>
+@endforeach
+</tbody>
+        </table>
+    </div>
 
 @endsection
 

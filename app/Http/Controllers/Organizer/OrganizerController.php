@@ -7,7 +7,7 @@ use App\Models\Booking;
 use App\Models\Event;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-
+use Illuminate\Support\Facades\Auth;
 
 class OrganizerController extends Controller
 {
@@ -30,6 +30,18 @@ class OrganizerController extends Controller
             ->where('status', 'waiting')
             ->count();
 
-        return view('organizer.index',compact('totalBookings','myEventsCount','pendingBookingsCount')); 
+            $user = Auth::user();
+
+            // Retrieve the last 5 confirmed bookings for events created by the user
+            $Bookings = Booking::whereHas('event', function ($query) use ($user) {
+                    $query->where('created_by', $user->id);
+                })
+                
+                ->with('event')
+                ->latest()  // Order by the latest bookings
+                ->limit(5)  // Limit to the last 5 bookings
+                ->get();
+
+        return view('organizer.index',compact('totalBookings','myEventsCount','pendingBookingsCount','Bookings')); 
     }
 }
