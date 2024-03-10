@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Category;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,14 +40,47 @@ class GuestController extends Controller
         return view('guest.events.details', compact('event'));
     }
 
-    public function event()
-    {
-        $events = Event::where('verified', 'yes')
+    public function event(Request $request)
+{
+    $categories = Category::all();
+    $selectedCategoryId = $request->input('categoryFilter', 'all');
+    $selectedMonth = $request->input('monthFilter', 'all');
+    $selectedPriceFilter = $request->input('priceFilter', 'all');
+    $searchTitle = $request->input('searchTitle');
+
+    $eventsQuery = Event::query();
+
+    // Apply filters
+    if ($selectedCategoryId !== 'all') {
+        $eventsQuery->where('category_id', $selectedCategoryId);
+    }
+
+    if ($selectedMonth !== 'all') {
+        $eventsQuery->whereMonth('date', '=', date('m', strtotime($selectedMonth)));
+    }
+
+    if ($selectedPriceFilter !== 'all') {
+        $priceRanges = [
+            '0-50' => [0, 50],
+            '50-100' => [50, 100],
+            'up-to-100' => [100, PHP_INT_MAX], // Adjust the upper limit as needed
+        ];
+
+        $eventsQuery->whereBetween('ticket_price', $priceRanges[$selectedPriceFilter]);
+    }
+
+    // Search by title
+    if ($searchTitle) {
+        $eventsQuery->where('title', 'like', '%' . $searchTitle . '%');
+    }
+
+    // Fetch filtered events
+    $events = $eventsQuery->where('verified', 'yes')
         ->orderByDesc('created_at')
         ->paginate(6);
 
-        return view('guest.events.index', compact('events'));
-    }
+    return view('guest.events.index', compact('events', 'categories'));
+}
 
     public function createBooking(Request $request)
     {

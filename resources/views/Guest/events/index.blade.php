@@ -57,6 +57,18 @@
             background-color: #007bff;
             color: #fff;
         }
+
+        #subscribe input[type="text"],
+#subscribe select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    outline: none; /* Remove outline on focus */
+}
+
+#subscribe select {
+    cursor: pointer;
+}
     </style>
 
 </head>
@@ -129,7 +141,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="search-box">
-                        <form id="subscribe" action="" method="get">
+                        <form id="subscribe" action="{{ route('guest.event.index') }}" method="get">
                             <div class="row">
                                 <div class="col-lg-5">
                                     <div class="search-heading">
@@ -139,30 +151,22 @@
                                 <div class="col-lg-7">
                                     <div class="row">
                                         <div class="col-lg-3">
-                                            <select value="month">
-                                                <option value="month">Month</option>
-                                                <option name="June" id="June">June</option>
-                                                <option name="July" id="July">July</option>
-                                                <option name="August" id="August">August</option>
-                                                <option name="September" id="September">September</option>
+                                            <input type="text" name="searchTitle" placeholder="Search by Title">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <select name="categoryFilter" id="categoryFilter">
+                                                <option value="all">All Categories</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
-                                            <select value="location">
-                                                <option value="location">Location</option>
-                                                <option name="Brazil" id="Brazil">Brazil</option>
-                                                <option name="Europe" id="Europe">Europe</option>
-                                                <option name="US" id="US">US</option>
-                                                <option name="Asia" id="Asia">Asia</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            
-                                            <select id="priceFilter" name="priceFilter">
-                                                <option value="all">All</option>
+                                            <select name="priceFilter" id="priceFilter">
+                                                <option value="all">All Prices</option>
                                                 <option value="0-50">$0 - $50</option>
                                                 <option value="50-100">$50 - $100</option>
-                                                <option value="up-to-100">$100~</option>
+                                                <option value="up-to-100">$100 and above</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-3">
@@ -175,6 +179,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -183,7 +188,7 @@
                     </div>
                 </div>
                 @foreach ($events as $event)
-                    <div class="col-lg-4 ticket-filtre"  data-price="{{ $event->ticket_price }}">
+                    <div class="col-lg-4 ticket-filtre" data-price="{{ $event->ticket_price }}">
                         <div class="ticket-item">
                             <div class="thumb">
                                 @if ($event->getFirstMediaUrl('media/events'))
@@ -222,52 +227,52 @@
     </div>
     </div>
     </div>
-    <script>$(document).ready(function () {
-        // Add an event listener to the price filter dropdown
-        $('#priceFilter').change(function () {
-            // Get the selected value
-            var selectedPriceFilter = $(this).val();
-    
-            // Filter events based on the selected price range
-            filterEvents(selectedPriceFilter);
+    <script>
+        $(document).ready(function() {
+            // Add an event listener to the price filter dropdown
+            $('#priceFilter').change(function() {
+                // Get the selected value
+                var selectedPriceFilter = $(this).val();
+
+                // Filter events based on the selected price range
+                filterEvents(selectedPriceFilter);
+            });
+
+            // Function to filter events
+            function filterEvents(priceFilter) {
+                // Get all event items
+                var events = $('.ticket-filtre');
+
+                // Show all events initially
+                events.show();
+
+                // Check if a price filter is selected
+                if (priceFilter !== 'all') {
+                    // Hide events that don't match the selected price range
+                    events.filter(function() {
+                        var eventPrice = parseFloat($(this).data('price'));
+                        return !isPriceInRange(eventPrice, priceFilter);
+                    }).hide();
+                }
+            }
+
+            // Function to check if a price is in the selected range
+            function isPriceInRange(price, range) {
+                // Handle the "max up to 100" condition
+                if (range === 'up-to-100') {
+                    return price > 100;
+                }
+
+                // For other ranges, parse and compare as before
+                var rangeValues = range.split('-');
+                var minPrice = parseFloat(rangeValues[0]);
+                var maxPrice = parseFloat(rangeValues[1]);
+
+                return price >= minPrice && price <= maxPrice;
+            }
         });
-    
-        // Function to filter events
-        function filterEvents(priceFilter) {
-            // Get all event items
-            var events = $('.ticket-filtre');
-    
-            // Show all events initially
-            events.show();
-    
-            // Check if a price filter is selected
-            if (priceFilter !== 'all') {
-                // Hide events that don't match the selected price range
-                events.filter(function () {
-                    var eventPrice = parseFloat($(this).data('price'));
-                    return !isPriceInRange(eventPrice, priceFilter);
-                }).hide();
-            }
-        }
-    
-        // Function to check if a price is in the selected range
-        function isPriceInRange(price, range) {
-            // Handle the "max up to 100" condition
-            if (range === 'up-to-100') {
-                return price > 100;
-            }
-    
-            // For other ranges, parse and compare as before
-            var rangeValues = range.split('-');
-            var minPrice = parseFloat(rangeValues[0]);
-            var maxPrice = parseFloat(rangeValues[1]);
-    
-            return price >= minPrice && price <= maxPrice;
-        }
-    });
-    
     </script>
-    
+
 
 
 
