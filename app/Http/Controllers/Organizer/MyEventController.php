@@ -71,4 +71,11 @@ public function update(EventUpdateRequest $request, Event $event)
     return redirect()->route('organizer.events.pending')->with('success', 'Event updated successfully!');
 }
 
+public function deleteEvent(Event $event)
+{
+    
+    $event->delete();
+
+    return redirect()->route('organizer.events.pending')->with('success', 'Event deleted successfully.');
+}
 }

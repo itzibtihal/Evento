@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('organizer.confirmed-bookings.index');
         Route::post('/update-booking-status', [MBookingController::class, 'updateStatus'])->name('update.booking.status');
         Route::get('/list-bookings', [MBookingController::class, 'listBookings'])->name('list.bookings');
+        Route::delete('/events/{event}', [MyEventController::class, 'deleteEvent'])->name('events.delete');
     });
 
 

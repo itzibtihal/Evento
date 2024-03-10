@@ -36,6 +36,15 @@
                             <a href="{{ route('events.edit', ['event' => $event->id]) }}">
                                 <i class="fa-solid fa-pencil-alt" style="color: blue;"></i>
                             </a>
+                            <a href="{{ route('events.delete', ['event' => $event->id]) }}"
+                                onclick="event.preventDefault(); document.getElementById('delete-form-{{ $event->id }}').submit();">
+                                 <i class="fa-solid fa-trash" style="color: red;"></i>
+                            </a>
+                             <!-- Add a hidden form for delete action -->
+                             <form id="delete-form-{{ $event->id }}" action="{{ route('events.delete', ['event' => $event->id]) }}" method="POST" style="display: none;">
+                                 @csrf
+                                 @method('DELETE')
+                             </form>
                         </td>
                     </tr>
                 @endforeach
