@@ -19,6 +19,10 @@ class Booking extends Model
     ];
 
     public $timestamps = false;
+    protected $casts = [
+        'created_at' => 'datetime',
+       
+    ];
     public function event()
     {
         return $this->belongsTo(Event::class);

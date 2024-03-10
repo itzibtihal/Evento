@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <title> Dashboard | Evento</title>
@@ -127,7 +132,6 @@
 
             <div class="recent-orders">
                 <h2>All Users</h2>
-
                 <table>
                     <thead>
                         <tr>
@@ -153,29 +157,58 @@
                             <td>{{ $user->age ?? 'N/A' }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                @if($user->status == 0)
-                                Active
-                                @elseif($user->status == 1)
-                                Blocked
-                                @else
-                                Unknown Status
-                                @endif
+                            <td>
+                                <select name="status" id="status{{ $user->id }}">
+                                    <option value="0" {{ $user->status == 0 ? 'selected' : '' }}>Active</option>
+                                    <option value="1" {{ $user->status == 1 ? 'selected' : '' }}>Blocked</option>
+                                </select>
+                            </td>
                             </td>
 
                             <td>
-                                <a href="#">Edit</a>
+                                <button onclick="updateStatus({{ $user->id }})">Update</button>
+
+
                             </td>
-
-                            
-
                         </tr>
-
-
-
-
                         @endforeach
                     </tbody>
                 </table>
+                <script>
+                    function updateStatus(userId) {
+                        var status = $('#status' + userId).val();
+
+                        $.ajax({
+                            url: '{{ route("update.user.status") }}',
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                userId: userId,
+                                status: status
+                            },
+                            success: function(response) {
+                                console.log('Update successful:', response);
+
+                                // Add a callback function to update the UI
+                                handleUpdateSuccess(userId, status);
+                            },
+                            error: function(error) {
+                                console.error('Update failed:', error);
+                            }
+                        });
+                    }
+
+                    // Callback function to update the UI
+                    function handleUpdateSuccess(userId, status) {
+                        console.log('Updating UI for user:', userId, 'with status:', status);
+
+                        // You can add code here to update the UI as needed
+                        // For example, change the text, color, or any other relevant changes
+                    }
+                </script>
+
 
 
             </div>

@@ -21,7 +21,7 @@ class PdfController extends Controller
 
     $data = [
         'title' => 'Invoice',
-        'date' => $booking->created_at->format('m/d/Y'), 
+        'date' => optional($booking->created_at)->format('m/d/Y') ?? now()->format('m/d/Y'),
         'invoiceNo' => $booking->id, 
         'userName' => $user->name,
         'userEmail' => $user->email,
